@@ -82,7 +82,7 @@ export const FrequencyOptionsCard = ({
   );
   const [customFrequency, setCustomFrequency] = useState("");
 
-  const { selectedStrategy } = useStrategyContext();
+  const { deselectStrategy, selectedStrategy } = useStrategyContext();
 
   const handleCustomFrequencyChange = (
     event: ChangeEvent<HTMLInputElement>
@@ -103,6 +103,8 @@ export const FrequencyOptionsCard = ({
       setDefaultFrequency("");
       setCustomFrequency(newValue);
     }
+
+    if (selectedStrategy) deselectStrategy();
   };
 
   useEffect(() => {
@@ -161,6 +163,7 @@ export const FrequencyOptionsCard = ({
                 onChange={(event) => {
                   setDefaultFrequency(event.target.value as FREQUENCY_OPTIONS);
                   if (!!customFrequency) setCustomFrequency("");
+                  if (selectedStrategy) deselectStrategy();
                 }}
                 value={freqOption}
               >
