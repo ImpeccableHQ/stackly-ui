@@ -93,7 +93,7 @@ export const STRATEGY_CATEGORIES: { [chainId: number]: ChainStrategies } = {
         {
           id: 3,
           buyToken: gnosisTokens.WETH,
-          daysAmount: 10,
+          daysAmount: 4,
           frequency: FREQUENCY_OPTIONS.hour,
           sellAmountPerTimeframe: 5,
           sellToken: gnosisTokens.USDC,
@@ -136,7 +136,7 @@ export const STRATEGY_CATEGORIES: { [chainId: number]: ChainStrategies } = {
         {
           id: 3,
           buyToken: arbitrumTokens.WETH,
-          daysAmount: 10,
+          daysAmount: 4,
           frequency: FREQUENCY_OPTIONS.hour,
           sellAmountPerTimeframe: 5,
           sellToken: arbitrumTokens.USDC,
@@ -179,7 +179,7 @@ export const STRATEGY_CATEGORIES: { [chainId: number]: ChainStrategies } = {
         {
           id: 3,
           buyToken: baseTokens.CBBTC,
-          daysAmount: 10,
+          daysAmount: 4,
           frequency: FREQUENCY_OPTIONS.hour,
           sellAmountPerTimeframe: 5,
           sellToken: baseTokens.USDC,
