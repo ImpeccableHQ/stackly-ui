@@ -2,12 +2,31 @@
 
 import { ChangeEvent, useEffect, useState } from "react";
 
-import { add } from "date-fns";
+import { add, daysToWeeks } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
+import { useStrategyContext } from "@/contexts";
 import { FREQUENCY_OPTIONS } from "@/models";
 import { BodyText, RadioButton, TextInput } from "@/ui";
 import { cx } from "class-variance-authority";
+
+const parseDaysToFrequencyAmount = (
+  days: number,
+  frequency: FREQUENCY_OPTIONS
+) => {
+  switch (frequency) {
+    case FREQUENCY_OPTIONS.hour:
+      return days * 24;
+    case FREQUENCY_OPTIONS.day:
+      return days;
+    case FREQUENCY_OPTIONS.week:
+      return daysToWeeks(days);
+    case FREQUENCY_OPTIONS.month:
+      return days / 30;
+    default:
+      throw new Error("Invalid frequency option");
+  }
+};
 
 interface FrequencyOptionsCardProps {
   frequency: FREQUENCY_OPTIONS;
@@ -63,6 +82,8 @@ export const FrequencyOptionsCard = ({
   );
   const [customFrequency, setCustomFrequency] = useState("");
 
+  const { selectedStrategy } = useStrategyContext();
+
   const handleCustomFrequencyChange = (
     event: ChangeEvent<HTMLInputElement>
   ) => {
@@ -96,6 +117,26 @@ export const FrequencyOptionsCard = ({
     setEndDate(getDefaultEndDateFrequency(frequency, Number(newFrequency)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultFrequency, customFrequency]);
+
+  useEffect(() => {
+    if (selectedStrategy) {
+      const frequencyAmount = parseDaysToFrequencyAmount(
+        selectedStrategy.daysAmount,
+        frequency
+      ).toString();
+
+      const isDefaultStrategy =
+        defaultFrequencyOptions[frequency].includes(frequencyAmount);
+
+      if (isDefaultStrategy) {
+        setDefaultFrequency(frequencyAmount);
+        setCustomFrequency("");
+      } else {
+        setCustomFrequency(frequencyAmount);
+        setDefaultFrequency("");
+      }
+    }
+  }, [frequency, selectedStrategy]);
 
   return (
     <div
