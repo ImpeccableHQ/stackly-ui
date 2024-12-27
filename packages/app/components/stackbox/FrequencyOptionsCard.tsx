@@ -10,24 +10,6 @@ import { FREQUENCY_OPTIONS } from "@/models";
 import { BodyText, RadioButton, TextInput } from "@/ui";
 import { cx } from "class-variance-authority";
 
-const parseDaysToFrequencyAmount = (
-  days: number,
-  frequency: FREQUENCY_OPTIONS
-) => {
-  switch (frequency) {
-    case FREQUENCY_OPTIONS.hour:
-      return days * 24;
-    case FREQUENCY_OPTIONS.day:
-      return days;
-    case FREQUENCY_OPTIONS.week:
-      return daysToWeeks(days);
-    case FREQUENCY_OPTIONS.month:
-      return days / 30;
-    default:
-      throw new Error("Invalid frequency option");
-  }
-};
-
 interface FrequencyOptionsCardProps {
   frequency: FREQUENCY_OPTIONS;
   setEndDate: (date: Date) => void;
@@ -71,6 +53,26 @@ const getCroppedFrequency = (frequency: FREQUENCY_OPTIONS) => {
   const isMonthFrequency = frequency === FREQUENCY_OPTIONS.month;
 
   return isMonthFrequency ? frequency.substring(0, 2) : frequency.charAt(0);
+};
+
+const parseDaysToFrequencyAmount = (
+  days: number,
+  frequency: FREQUENCY_OPTIONS
+) => {
+  switch (frequency) {
+    case FREQUENCY_OPTIONS.hour:
+      return days * 24;
+    case FREQUENCY_OPTIONS.day:
+      return days;
+    case FREQUENCY_OPTIONS.week:
+      return daysToWeeks(days);
+    case FREQUENCY_OPTIONS.month:
+      return days / 30;
+    default: {
+      console.error("Invalid frequency option", frequency);
+      return maxCustomFrequencies[frequency];
+    }
+  }
 };
 
 export const FrequencyOptionsCard = ({
