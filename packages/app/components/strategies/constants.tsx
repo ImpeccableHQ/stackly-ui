@@ -172,9 +172,9 @@ export const STRATEGY_CATEGORIES: { [chainId: number]: ChainStrategies } = {
           buyToken: baseTokens.CBBTC,
           daysAmount: 182,
           frequency: FREQUENCY_OPTIONS.week,
-          sellAmountPerTimeframe: 100,
+          sellAmountPerTimeframe: 50,
           sellToken: baseTokens.USDC,
-          totalSellAmount: "2600",
+          totalSellAmount: "1300",
         },
         {
           id: 3,
